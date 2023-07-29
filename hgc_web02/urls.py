@@ -31,4 +31,7 @@ urlpatterns = [
     path("list/", views.list_),
     path("add/", views.add),
     path("cate/", views.cate),
+
+    path("handle_delete/", views.handle_delete),
+    path("show_update/", views.show_update)
 ]

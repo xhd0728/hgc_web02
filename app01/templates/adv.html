@@ -79,7 +79,14 @@
   <script type="text/javascript">
     function del(id, mid) {
       if (confirm("您确定要删除吗?")) {
-
+        $(function () {
+          $.post('/adv/', { id: id, mid: mid }, function (res) {
+            console.log(res)
+          }).then(() => {
+            alert('删除成功')
+            location.reload()
+          })
+        })
       }
     }
   </script>
