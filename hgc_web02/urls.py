@@ -20,5 +20,15 @@ from app01 import views
 
 urlpatterns = [
     # path("admin/", admin.site.urls),
-    path("login/", views.login)
+    path("login/", views.login),
+    path("info/", views.info),
+    path("pass/", views.pass_),
+    path("page/", views.page),
+    path("adv/", views.adv),
+    path("book/", views.book),
+    path("column/", views.column),
+
+    path("list/", views.list_),
+    path("add/", views.add),
+    path("cate/", views.cate),
 ]
