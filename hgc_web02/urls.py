@@ -36,5 +36,6 @@ urlpatterns = [
     path("handle_delete/", views.handle_delete),
     path("show_update/", views.show_update),
     path("handle_update/", views.handle_update),
-    path("tips/", views.tips)
+    path("tips/", views.tips),
+    path("sel_delete/", views.sel_delete),
 ]

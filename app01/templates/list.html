@@ -80,10 +80,13 @@
 
         {% for item in res_list %}
         <tr>
-          <td style="text-align:left; padding-left:20px;"><input type="checkbox" name="id[]" value="" />{{ item.id }}
+          <td style="text-align:left; padding-left:20px;">
+            <input type="checkbox" name="id[]" value="{{ item.id }}" />{{ item.id }}
           </td>
-          <td><input type="text" name="sort[1]" value="1"
-              style="width:50px; text-align:center; border:1px solid #ddd; padding:7px 0;" /></td>
+          <td>
+            <input type="text" name="sort[1]" value="1"
+              style="width:50px; text-align:center; border:1px solid #ddd; padding:7px 0;" />
+          </td>
           <td><img src="{% static 'images/lol/' %}{{ item.banner }}" alt="" width="70" height="50" /></td>
           <td>{{ item.author }}</td>
           <td>{{ item.level }}</td>
@@ -185,9 +188,29 @@
         }
       });
       if (Checkbox) {
-        var t = confirm("您确认要删除选中的内容吗？");
+        let t = confirm("您确认要删除选中的内容吗？");
         if (t == false) return false;
-        $("#listform").submit();
+        let obj_list = $('input:checked');
+        let id = 0;
+        let arr = [];
+        let sr = ''
+        for (let i = 0; i < obj_list.length; ++i) {
+          id = obj_list.eq(i).val();
+          arr.push(id);
+          sr += id + ','
+        }
+        data = {
+          id: sr
+        }
+        $.get('http://127.0.0.1:8000/sel_delete/', data, function (res) {
+          if (res == 'ok') {
+            alert('删除成功');
+          }
+          else {
+            alert('删除失败');
+          }
+          location.reload();
+        })
       }
       else {
         alert("请选择您要删除的内容!");

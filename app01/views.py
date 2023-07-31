@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, HttpResponse
 from django.conf import settings
 from app01.utils import DB, set_hash, handle_page
 import os
@@ -130,6 +130,17 @@ def tips(request):
         'timer': timer
     }
     return render(request, 'tips.html', {'result': result})
+
+
+def sel_delete(request):
+    id = request.GET.get('id')
+    id = id[:-1]
+    mysql = DB(host='127.0.0.1',
+               user='root',
+               passwd='10011010',
+               db='hgx_web')
+    mysql.delete(f'delete from tab_lol where id in ({id})')
+    return HttpResponse('ok')
 
 
 def add(request):
