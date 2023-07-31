@@ -12,6 +12,7 @@
   <link rel="stylesheet" href="{% static 'css/admin.css' %}">
   <script src="{% static 'js/jquery.js' %}"></script>
   <script src="{% static 'js/pintuer.js' %}"></script>
+  <script src="{% static 'plugins/bootstrap-3.4.1/js/bootstrap.min.js' %}"></script>
 </head>
 
 <body>
@@ -141,13 +142,12 @@
             </select>
           </td>
         </tr>
-        <tr>
-          <td colspan="8">
-            <div class="pagelist"> <a href="">上一页</a> <span class="current">1</span><a href="">2</a><a href="">3</a><a
-                href="">下一页</a><a href="">尾页</a> </div>
-          </td>
-        </tr>
       </table>
+      <div style="text-align: center;">
+        <ul class="pagination">
+          {{ page_string }}
+        </ul>
+      </div>
     </div>
   </form>
   <script type="text/javascript">

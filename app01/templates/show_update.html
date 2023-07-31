@@ -18,7 +18,7 @@
   <div class="panel admin-panel">
     <div class="panel-head" id="add"><strong><span class="icon-pencil-square-o"></span>修改内容</strong></div>
     <div class="body-content">
-      <form method="post" class="form-x" action="">
+      <form method="post" class="form-x" action="/handle_update/" enctype="multipart/form-data">
         <div class="form-group">
           <div class="label">
             <label>标题：</label>
@@ -35,7 +35,7 @@
             <label>等级：</label>
           </div>
           <div class="field">
-            <input type="text" class="input w50" value="{{ result.level }}" name="title"
+            <input type="text" class="input w50" value="{{ result.level }}" name="level"
               data-validate="required:请输入等级" />
             <div class="tips"></div>
           </div>
@@ -46,7 +46,7 @@
             <label>作者名：</label>
           </div>
           <div class="field">
-            <input type="text" class="input w50" value="{{ result.author }}" name="title"
+            <input type="text" class="input w50" value="{{ result.author }}" name="author"
               data-validate="required:请输入作者名" />
             <div class="tips"></div>
           </div>
@@ -57,7 +57,7 @@
             <label>人气数：</label>
           </div>
           <div class="field">
-            <input type="text" class="input w50" value="{{ result.hot_num }}" name="title"
+            <input type="text" class="input w50" value="{{ result.hot_num }}" name="hot_num"
               data-validate="required:请输入人气数" />
             <div class="tips"></div>
           </div>
@@ -68,9 +68,11 @@
             <label>图片：</label>
           </div>
           <div class="field">
-            <input type="text" id="url1" name="img" class="input tips" style="width:25%; float:left;" value=""
-              data-toggle="hover" data-place="right" data-image="{% static 'images/lol/' %}{{ result.banner }}" />
-            <input type="button" class="button bg-blue margin-left" id="image1" value="+ 浏览上传" style="float:left;">
+            <input type="text" id="url1" class="input tips" style="width:25%; float:left;" value="" data-toggle="hover"
+              data-place="right" data-image="{% static 'images/lol/' %}{{ result.banner }}" />
+
+            <input type="file" name="banner" class="button bg-blue margin-left" id="image1" value="+ 浏览上传"
+              style="float:left;">
             <div class="tipss">图片尺寸：500*500</div>
           </div>
         </div>
@@ -79,6 +81,7 @@
             <label></label>
           </div>
           <div class="field">
+            <input type="hidden" name="id" value="{{ result.id }}">
             <button class="button bg-main icon-check-square-o" type="submit"> 提交</button>
           </div>
         </div>

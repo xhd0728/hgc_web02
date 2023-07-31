@@ -21,6 +21,7 @@ from app01 import views
 urlpatterns = [
     # path("admin/", admin.site.urls),
     path("login/", views.login),
+    path("index/", views.index),
     path("info/", views.info),
     path("pass/", views.pass_),
     path("page/", views.page),
@@ -33,5 +34,7 @@ urlpatterns = [
     path("cate/", views.cate),
 
     path("handle_delete/", views.handle_delete),
-    path("show_update/", views.show_update)
+    path("show_update/", views.show_update),
+    path("handle_update/", views.handle_update),
+    path("tips/", views.tips)
 ]
