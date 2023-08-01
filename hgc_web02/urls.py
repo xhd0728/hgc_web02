@@ -23,7 +23,10 @@ urlpatterns = [
     path("login/", views.login),
     path("index/", views.index),
     path("info/", views.info),
-    path("pass/", views.pass_),
+
+    path("update_pwd/", views.update_pwd),
+    path("handle_pwd/", views.handle_pwd),
+
     path("page/", views.page),
     path("adv/", views.adv),
     path("book/", views.book),
@@ -38,4 +41,5 @@ urlpatterns = [
     path("handle_update/", views.handle_update),
     path("tips/", views.tips),
     path("sel_delete/", views.sel_delete),
+    path("update_num/", views.update_num),
 ]

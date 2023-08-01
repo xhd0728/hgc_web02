@@ -16,143 +16,118 @@
 </head>
 
 <body>
-  <form method="post" action="" id="listform">
-    <div class="panel admin-panel">
-      <div class="panel-head"><strong class="icon-reorder"> 内容列表</strong> <a href=""
-          style="float:right; display:none;">添加字段</a></div>
+  <div class="panel admin-panel">
+    <div class="panel-head">
+      <strong class="icon-reorder"> 内容列表</strong>
+      <a href="" style="float:right; display:none;">添加字段</a>
+    </div>
+
+    <form method="get" action="/list/" id="listform">
       <div class="padding border-bottom">
         <ul class="search" style="padding-left:10px;">
           <li> <a class="button border-main icon-plus-square-o" href="add.html"> 添加内容</a> </li>
           <li>搜索：</li>
-          <li>首页
-            <select name="s_ishome" class="input" onchange="changesearch()"
-              style="width:60px; line-height:17px; display:inline-block">
-              <option value="">选择</option>
-              <option value="1">是</option>
-              <option value="0">否</option>
-            </select>
-            &nbsp;&nbsp;
-            推荐
-            <select name="s_isvouch" class="input" onchange="changesearch()"
-              style="width:60px; line-height:17px;display:inline-block">
-              <option value="">选择</option>
-              <option value="1">是</option>
-              <option value="0">否</option>
-            </select>
-            &nbsp;&nbsp;
-            置顶
-            <select name="s_istop" class="input" onchange="changesearch()"
-              style="width:60px; line-height:17px;display:inline-block">
-              <option value="">选择</option>
-              <option value="1">是</option>
-              <option value="0">否</option>
-            </select>
-          </li>
-          <if condition="$iscid eq 1">
-            <li>
-              <select name="cid" class="input" style="width:200px; line-height:17px;" onchange="changesearch()">
-                <option value="">请选择分类</option>
-                <option value="">产品分类</option>
-                <option value="">产品分类</option>
-                <option value="">产品分类</option>
-                <option value="">产品分类</option>
-              </select>
-            </li>
-          </if>
           <li>
-            <input type="text" placeholder="请输入搜索关键字" name="keywords" class="input"
+            <select name="search_type" class="input" style="width:200px; line-height:17px;">
+              <option value="0">请选择搜索分类</option>
+              <option value="1" {% if search_type != '' and search_type == '1' %} selected {% endif %}>Author</option>
+              <option value="2" {% if search_type != '' and search_type == '2' %} selected {% endif %}>Level</option>
+            </select>
+          </li>
+          <li>
+            <input type="text" placeholder="请输入搜索关键字" name="keyword" value="{{ keyword }}" class="input"
               style="width:250px; line-height:17px;display:inline-block" />
-            <a href="javascript:void(0)" class="button border-main icon-search" onclick="changesearch()"> 搜索</a>
+            <input type="submit" class="button border-main icon-search" name="sub" value="搜索" />
           </li>
         </ul>
       </div>
-      <table class="table table-hover text-center">
-        <tr>
-          <th width="100" style="text-align:left; padding-left:20px;">ID</th>
-          <th width="10%">排序</th>
-          <th>Banner</th>
-          <th>Author</th>
-          <th>Level</th>
-          <th>HOT</th>
-          <th>Time</th>
-          <th width="310">操作</th>
-        </tr>
+    </form>
+    <table class="table table-hover text-center">
+      <tr>
+        <th width="100" style="text-align:left; padding-left:20px;">ID</th>
+        <th width="10%">排序</th>
+        <th>Banner</th>
+        <th>Author</th>
+        <th>Level</th>
+        <th>HOT</th>
+        <th>Time</th>
+        <th width="310">操作</th>
+      </tr>
 
-        {% for item in res_list %}
-        <tr>
-          <td style="text-align:left; padding-left:20px;">
-            <input type="checkbox" name="id[]" value="{{ item.id }}" />{{ item.id }}
-          </td>
-          <td>
-            <input type="text" name="sort[1]" value="1"
-              style="width:50px; text-align:center; border:1px solid #ddd; padding:7px 0;" />
-          </td>
-          <td><img src="{% static 'images/lol/' %}{{ item.banner }}" alt="" width="70" height="50" /></td>
-          <td>{{ item.author }}</td>
-          <td>{{ item.level }}</td>
-          <td>{{ item.hot_num }}</td>
-          <td>{{ item.addtime | date:"Y-m-d H:i:s" }}</td>
-          <td>
-            <div class="button-group">
-              <a class="button border-main" href="/show_update/?id={{ item.id }}">
-                <span class="icon-edit"></span>
-                修改</a>
-              <a class="button border-red" href="/handle_delete/?id={{ item.id }}" onclick="return confirm('确定删除吗?')">
-                <span class="icon-trash-o"></span> 删除</a>
-            </div>
-          </td>
-        </tr>
-        {% endfor %}
+      {% for item in res_list %}
+      <tr>
+        <td style="text-align:left; padding-left:20px;">
+          <input type="checkbox" name="id[]" value="{{ item.id }}" />{{ item.id }}
+        </td>
+        <td>
+          <input type="text" name="sort[1]" onblur="update_num({{ item.id }} ,this.value)" value="{{ item.num }}"
+            style="width:50px; text-align:center; border:1px solid #ddd; padding:7px 0;" />
+        </td>
+        <td><img src="{% static 'images/lol/' %}{{ item.banner }}" alt="" width="70" height="50" /></td>
+        <td>{{ item.author }}</td>
+        <td>{{ item.level }}</td>
+        <td>{{ item.hot_num }}</td>
+        <td>{{ item.addtime | date:"Y-m-d H:i:s" }}</td>
+        <td>
+          <div class="button-group">
+            <a class="button border-main" href="/show_update/?id={{ item.id }}">
+              <span class="icon-edit"></span>
+              修改</a>
+            <a class="button border-red" href="/handle_delete/?id={{ item.id }}" onclick="return confirm('确定删除吗?')">
+              <span class="icon-trash-o"></span> 删除</a>
+          </div>
+        </td>
+      </tr>
+      {% endfor %}
 
-        <tr>
-          <td style="text-align:left; padding:19px 0;padding-left:20px;"><input type="checkbox" id="checkall" />
-            全选 </td>
-          <td colspan="7" style="text-align:left;padding-left:20px;"><a href="javascript:void(0)"
-              class="button border-red icon-trash-o" style="padding:5px 15px;" onclick="DelSelect()"> 删除</a> <a
-              href="javascript:void(0)" style="padding:5px 15px; margin:0 10px;" class="button border-blue icon-edit"
-              onclick="sorts()"> 排序</a> 操作：
-            <select name="ishome" style="padding:5px 15px; border:1px solid #ddd;" onchange="changeishome(this)">
-              <option value="">首页</option>
-              <option value="1">是</option>
-              <option value="0">否</option>
-            </select>
-            <select name="isvouch" style="padding:5px 15px; border:1px solid #ddd;" onchange="changeisvouch(this)">
-              <option value="">推荐</option>
-              <option value="1">是</option>
-              <option value="0">否</option>
-            </select>
-            <select name="istop" style="padding:5px 15px; border:1px solid #ddd;" onchange="changeistop(this)">
-              <option value="">置顶</option>
-              <option value="1">是</option>
-              <option value="0">否</option>
-            </select>
-            &nbsp;&nbsp;&nbsp;
+      <tr>
+        <td style="text-align:left; padding:19px 0;padding-left:20px;"><input type="checkbox" id="checkall" />
+          全选 </td>
+        <td colspan="7" style="text-align:left;padding-left:20px;"><a href="javascript:void(0)"
+            class="button border-red icon-trash-o" style="padding:5px 15px;" onclick="DelSelect()"> 删除</a> <a
+            href="javascript:void(0)" style="padding:5px 15px; margin:0 10px;" class="button border-blue icon-edit"
+            onclick="sorts()"> 排序</a> 操作：
+          <select name="ishome" style="padding:5px 15px; border:1px solid #ddd;" onchange="changeishome(this)">
+            <option value="">首页</option>
+            <option value="1">是</option>
+            <option value="0">否</option>
+          </select>
+          <select name="isvouch" style="padding:5px 15px; border:1px solid #ddd;" onchange="changeisvouch(this)">
+            <option value="">推荐</option>
+            <option value="1">是</option>
+            <option value="0">否</option>
+          </select>
+          <select name="istop" style="padding:5px 15px; border:1px solid #ddd;" onchange="changeistop(this)">
+            <option value="">置顶</option>
+            <option value="1">是</option>
+            <option value="0">否</option>
+          </select>
+          &nbsp;&nbsp;&nbsp;
 
-            移动到：
-            <select name="movecid" style="padding:5px 15px; border:1px solid #ddd;" onchange="changecate(this)">
-              <option value="">请选择分类</option>
-              <option value="">产品分类</option>
-              <option value="">产品分类</option>
-              <option value="">产品分类</option>
-              <option value="">产品分类</option>
-            </select>
-            <select name="copynum" style="padding:5px 15px; border:1px solid #ddd;" onchange="changecopy(this)">
-              <option value="">请选择复制</option>
-              <option value="5">复制5条</option>
-              <option value="10">复制10条</option>
-              <option value="15">复制15条</option>
-              <option value="20">复制20条</option>
-            </select>
-          </td>
-        </tr>
-      </table>
-      <div style="text-align: center;">
-        <ul class="pagination">
-          {{ page_string }}
-        </ul>
-      </div>
+          移动到：
+          <select name="movecid" style="padding:5px 15px; border:1px solid #ddd;" onchange="changecate(this)">
+            <option value="">请选择分类</option>
+            <option value="">产品分类</option>
+            <option value="">产品分类</option>
+            <option value="">产品分类</option>
+            <option value="">产品分类</option>
+          </select>
+          <select name="copynum" style="padding:5px 15px; border:1px solid #ddd;" onchange="changecopy(this)">
+            <option value="">请选择复制</option>
+            <option value="5">复制5条</option>
+            <option value="10">复制10条</option>
+            <option value="15">复制15条</option>
+            <option value="20">复制20条</option>
+          </select>
+        </td>
+      </tr>
+    </table>
+    <div style="text-align: center;">
+      <ul class="pagination">
+        {{ page_string }}
+      </ul>
     </div>
-  </form>
+  </div>
   <script type="text/javascript">
 
     //搜索
@@ -216,6 +191,18 @@
         alert("请选择您要删除的内容!");
         return false;
       }
+    }
+
+    function update_num(id, value) {
+      data = {
+        id: id,
+        value: value
+      }
+      $.get('http://127.0.0.1:8000/update_num/', data, function (res) {
+        if (res == 'ok') {
+          location.reload()
+        }
+      })
     }
 
     //批量排序
